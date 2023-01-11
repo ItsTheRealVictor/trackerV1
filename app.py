@@ -25,4 +25,4 @@ app.app_context().push()
 
 @app.route('/')
 def home():
-    return 'sup'
+    return render_template('home.html')
