@@ -45,9 +45,9 @@ class User(db.Model):
 class Test(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    lot_num = db.Column(db.Text)
-    part_num = db.Column(db.Text)
-    test_name = db.Column(db.Text)
-    location = db.Column(db.Text)
-    duration = db.Column(db.Integer)
-    owner = db.Column(db.Text)
+    lot_num = db.Column(db.Text, info={'label': 'Lot number'})
+    part_num = db.Column(db.Text, info={'label': 'Part number'})
+    test_name = db.Column(db.Text, info={'label': 'Test name'})
+    location = db.Column(db.Text, info={'label': 'Location of test'})
+    duration = db.Column(db.Integer, info={'label': 'Test duration (hours)'})
+    owner = db.Column(db.Text, info={'label': 'Lot owner'})
