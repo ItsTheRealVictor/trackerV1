@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User
-from forms import LoginForm, RegisterUserForm
+from models import db, connect_db, User, Test
+from forms import LoginForm, RegisterUserForm, TestForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
 from datetime import datetime
@@ -92,4 +92,5 @@ def issues():
 
 @app.route('/add')
 def add():
-    return render_template('add.html')
+    form = TestForm()
+    return render_template('add.html', form=form)

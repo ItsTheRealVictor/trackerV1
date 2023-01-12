@@ -3,7 +3,6 @@ from flask_bcrypt import Bcrypt
 from datetime import datetime
 import time
 
-
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 
@@ -43,3 +42,12 @@ class User(db.Model):
         else:
             return False
         
+class Test(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    lot_num = db.Column(db.Text)
+    part_num = db.Column(db.Text)
+    test_name = db.Column(db.Text)
+    location = db.Column(db.Text)
+    duration = db.Column(db.Integer)
+    owner = db.Column(db.Text)
