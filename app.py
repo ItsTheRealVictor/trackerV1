@@ -28,6 +28,10 @@ app.app_context().push()
 def home():
     return render_template('home.html')
 
+
+
+
+#################### Register/Login/Logout Routes ####################
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterUserForm()
@@ -61,10 +65,31 @@ def login():
         
         user = User.authenticate_user(username, password)
         if user:
-            flash(f'Welcome back {user.first_name}')
+            flash(f'Welcome back {user.username}')
             session['username'] = user.username
-            return redirect('/secret')
+            return redirect('/')
         else:
             form.username.errors = ['INVALID PASSORD!']
             
     return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    session.pop('username')
+    flash('Goodbye')
+    return redirect('/')
+
+
+#################### App Function Routes ####################
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/issues')
+def issues():
+    return render_template('issues.html')
+
+@app.route('/add')
+def add():
+    return render_template('add.html')
