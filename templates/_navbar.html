@@ -7,8 +7,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-item nav-link" href="/dashboard">dashboard</a>
-            <a class="nav-item nav-link" href="/issues">issues</a>
+            <a class="nav-item nav-link" href="/all_tests">View all tests</a>
+            <a class="nav-item nav-link" href="/all_issues">View all issues</a>
+            <a class="nav-item nav-link" href="/users/{{session['username']}}/issues/add">add issue</a>
             <a class="nav-item nav-link" href="/users/{{session['username']}}/tests/add">add parts/tests</a>
             <a class="nav-item nav-link" href="/logout">logout</a>
           </div>

@@ -82,13 +82,12 @@ def logout():
 
 #################### App Function Routes ####################
 
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
+#################### tests ####################
 
-@app.route('/issues')
-def issues():
-    return render_template('issues.html')
+@app.route('/all_tests')
+def dashboard():
+    return render_template('all_tests.html')
+
 
 @app.route('/users/<username>/tests/add', methods=['GET', 'POST'])
 def add_test(username):
@@ -114,6 +113,11 @@ def add_test(username):
         return redirect(f'/users/{username}/tests/add')
 
     return render_template('add_test.html', form=form)
+
+
+@app.route('/all_issues')
+def issues():
+    return render_template('all_issues.html')
 
 @app.route('/users/<username>/issues/add', methods=['GET', 'POST'])
 def add_issue(username):
