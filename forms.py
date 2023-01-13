@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms_alchemy import model_form_factory
-from models import db, User, Test
+from models import db, User, Test, Issue
 from wtforms.validators import InputRequired
 
 
@@ -24,3 +24,7 @@ class RegisterUserForm(FlaskForm):
 class TestForm(ModelForm):
     class Meta:
         model = Test
+
+class IssueForm(ModelForm):
+    class Meta:
+        model = Issue

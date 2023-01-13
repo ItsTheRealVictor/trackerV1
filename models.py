@@ -44,6 +44,8 @@ class User(db.Model):
         
 class Test(db.Model):
 
+    __tablename__ = 'tests'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     lot_num = db.Column(db.Text, info={'label': 'Lot number'})
     part_num = db.Column(db.Text, info={'label': 'Part number'})
@@ -51,3 +53,14 @@ class Test(db.Model):
     location = db.Column(db.Text, info={'label': 'Location of test'})
     duration = db.Column(db.Integer, info={'label': 'Test duration (hours)'})
     owner = db.Column(db.Text, info={'label': 'Lot owner'})
+
+class Issue(db.Model):
+
+    __tablename__ = 'issues'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.Text, info={'label': 'Title'})
+    text = db.Column(db.Text, info={'label': 'Issue content'})
+
+    username = db.Column(db.Integer, db.ForeignKey('users.username'))
+    user = db.relationship('User', backref='Issue')
