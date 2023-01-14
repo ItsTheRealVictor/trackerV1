@@ -51,6 +51,7 @@ class Test(db.Model):
     part_num = db.Column(db.Text, info={'label': 'Part number'})
     test_name = db.Column(db.Text, info={'label': 'Test name'})
     location = db.Column(db.Text, info={'label': 'Location of test'})
+    start = db.Column(db.Date, default=datetime.utcnow, info={'label': 'Starting date'})
     duration = db.Column(db.Integer, info={'label': 'Test duration (hours)'})
     owner = db.Column(db.Text, info={'label': 'Lot owner'})
 
@@ -62,5 +63,5 @@ class Issue(db.Model):
     title = db.Column(db.Text, info={'label': 'Title'})
     text = db.Column(db.Text, info={'label': 'Issue content'})
 
-    username = db.Column(db.Integer, db.ForeignKey('users.username'))
+    username = db.Column(db.Text, db.ForeignKey('users.username'))
     user = db.relationship('User', backref='Issue')

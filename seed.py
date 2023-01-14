@@ -1,4 +1,4 @@
-from models import db, User, connect_db
+from models import db, connect_db, User, Test, Issue
 from app import app
 
 connect_db(app)
@@ -28,8 +28,8 @@ users = [
 ]
 
 for user in users:
-    new = User(username=user['username'],
-                password=user['password'],
+    new = User.register_user(username=user['username'],
+                pwd=user['password'],
                 email=user['email'])
     db.session.add(new)
     db.session.commit()
@@ -77,3 +77,12 @@ tests = [
     },
 
 ]
+
+# for test in tests:
+#     new = Test(lot_num=test['lot_num'],
+#                part_num=test['part_num'],
+#                test_name=test['test_name'],
+#                location=test['location'],
+#                start=test['start'],
+#                location=test['location'],
+#                owner=test['owner'])

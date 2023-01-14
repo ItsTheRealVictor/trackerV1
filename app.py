@@ -23,7 +23,8 @@ app.config['DEBUG_TB_INTERCEPTS_REDIRECTS'] = False
 
 connect_db(app)
 app.app_context().push()
-fsdf
+
+
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -86,7 +87,8 @@ def logout():
 
 @app.route('/all_tests')
 def dashboard():
-    return render_template('all_tests.html')
+    tests = Test.query.all()
+    return render_template('all_tests.html', tests=tests)
 
 
 @app.route('/users/<username>/tests/add', methods=['GET', 'POST'])
@@ -103,10 +105,11 @@ def add_test(username):
         part_num = form.part_num.data
         test_name = form.test_name.data
         location = form.location.data
+        start = form.start.data
         duration = form.duration.data
         owner = form.owner.data
 
-        new_test = Test(lot_num=lot_num, part_num=part_num, test_name=test_name, location=location, duration=duration, owner=owner)
+        new_test = Test(lot_num=lot_num, part_num=part_num, test_name=test_name,start=start, location=location, duration=duration, owner=owner)
     
         db.session.add(new_test)
         db.session.commit()

@@ -6,4 +6,9 @@
 
 {% block body %}
     <h1>Hello these are the current tests</h1>
+
+    {% for test in tests %}
+        <p>{{test}}</p>
+    {% endfor %}
+
 {% endblock body %}
