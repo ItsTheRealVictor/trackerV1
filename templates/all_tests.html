@@ -10,9 +10,11 @@
     {% for test in tests %}
     <div class="card" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">{{test.lot_num}}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{test.part_num}}</h6>
-          <p class="card-text">{{test_test_name}}</p>
+          <h5 class="card-title">{{test.test_name}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{test.location}}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{test.duration}} hours</h6>
+          <h6 class="card-subtitle mb-2 text-muted">Start date: {{test.start}}</h6>
+          <p class="card-text">{{test.lot_num}}</p>
           <a href="#" class="card-link">Card link</a>
           <a href="#" class="card-link">Another link</a>
         </div>
