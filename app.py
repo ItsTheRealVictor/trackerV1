@@ -11,11 +11,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'asdf'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = -1
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/feedback'
-# app.config['SQLALCHEMY_BINDS'] = {'testDB': 'sqlite:///test_feedback.db'}
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/tracker'
+app.config['SQLALCHEMY_BINDS'] = {'testDB': 'sqlite:///test_tracker.db'}
 
 # use this DB when developing from work computer
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
 
 app.debug = False
 debug = DebugToolbarExtension(app)
@@ -23,7 +23,7 @@ app.config['DEBUG_TB_INTERCEPTS_REDIRECTS'] = False
 
 connect_db(app)
 app.app_context().push()
-
+fsdf
 @app.route('/')
 def home():
     return render_template('home.html')
