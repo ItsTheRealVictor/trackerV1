@@ -8,7 +8,15 @@
     <h1>Hello these are the current tests</h1>
 
     {% for test in tests %}
-        <p>{{test}}</p>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{test.lot_num}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{test.part_num}}</h6>
+          <p class="card-text">{{test_test_name}}</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
     {% endfor %}
 
 {% endblock body %}
