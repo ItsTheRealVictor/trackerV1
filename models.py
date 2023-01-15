@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from datetime import datetime
+import datetime
 import time
 
 db = SQLAlchemy()
@@ -51,9 +51,12 @@ class Test(db.Model):
     part_num = db.Column(db.Text, info={'label': 'Part number'})
     test_name = db.Column(db.Text, info={'label': 'Test name'})
     location = db.Column(db.Text, info={'label': 'Location of test'})
-    start = db.Column(db.Date, default=datetime.utcnow, info={'label': 'Starting date'})
+    start = db.Column(db.Date, default=datetime.datetime.utcnow, info={'label': 'Starting date'})
     duration = db.Column(db.Integer, info={'label': 'Test duration (hours)'})
     owner = db.Column(db.Text, info={'label': 'Lot owner'})
+    end = db.Column(db.Text)
+        
+        
 
 class Issue(db.Model):
 

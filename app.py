@@ -4,7 +4,7 @@ from models import db, connect_db, User, Test, Issue
 from forms import LoginForm, RegisterUserForm, TestForm, IssueForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
-from datetime import datetime
+import datetime
 
 app = Flask(__name__)
 
@@ -91,6 +91,16 @@ def dashboard():
     return render_template('all_tests.html', tests=tests)
 
 
+def calculate_date(in_date, out_date):
+    pass
+    
+
+
+
+
+
+
+
 @app.route('/users/<username>/tests/add', methods=['GET', 'POST'])
 def add_test(username):
 
@@ -108,12 +118,28 @@ def add_test(username):
         start = form.start.data
         duration = form.duration.data
         owner = form.owner.data
-
-        new_test = Test(lot_num=lot_num, part_num=part_num, test_name=test_name,start=start, location=location, duration=duration, owner=owner)
+        
+        
+        # calculating future date
+        future_delta = datetime.timedelta(hours=duration)
+        future_date = start + future_delta
+        formatted_future_date = future_date.strftime('%a %Y-%m-%d')
+        
+        
+        
+        
+        new_test = Test(lot_num=lot_num, 
+                        part_num=part_num, 
+                        test_name=test_name,
+                        start=start, 
+                        location=location, 
+                        duration=duration, 
+                        owner=owner,
+                        end=formatted_future_date)
     
         db.session.add(new_test)
         db.session.commit()
-        return redirect(f'/users/{username}/tests/add')
+        return redirect(f'/all_tests')
 
     return render_template('add_test.html', form=form)
 
