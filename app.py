@@ -175,6 +175,15 @@ def add_issue(username):
     
         db.session.add(new_issue)
         db.session.commit()
-        return redirect(f'/users/{username}/issues/add')
+        return redirect(f'/all_issues')
 
     return render_template('add_issue.html', form=form)
+
+
+@app.route('/users/<username>/issues/<int:issue_id>/delete', methods=['GET', 'POST'])
+def delete_issue(username, issue_id):
+    issue = Issue.query.get_or_404(issue_id)
+    if session['username'] == username:
+        db.session.delete(issue)
+        db.session.commit()
+        return redirect('/all_issues')
