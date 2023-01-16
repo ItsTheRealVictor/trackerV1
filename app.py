@@ -11,11 +11,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'asdf'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = -1
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/tracker'
-app.config['SQLALCHEMY_BINDS'] = {'testDB': 'sqlite:///test_tracker.db'}
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/tracker'
+# app.config['SQLALCHEMY_BINDS'] = {'testDB': 'sqlite:///test_tracker.db'}
 
 # use this DB when developing from work computer
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
 
 app.debug = False
 debug = DebugToolbarExtension(app)
@@ -91,16 +91,6 @@ def dashboard():
     return render_template('all_tests.html', tests=tests)
 
 
-def calculate_date(in_date, out_date):
-    pass
-    
-
-
-
-
-
-
-
 @app.route('/users/<username>/tests/add', methods=['GET', 'POST'])
 def add_test(username):
 
@@ -144,6 +134,22 @@ def add_test(username):
     return render_template('add_test.html', form=form)
 
 
+@app.route('/users/tests/<int:test_id>/delete', methods=['GET', 'POST '])
+def delete_test(test_id):
+    test = Test.query.get_or_404(test_id)
+    db.session.delete(test)
+    db.session.commit()
+    flash('TEST DELETED')
+    return redirect('/all_tests')
+
+
+
+
+
+
+
+
+################################## Issue Routes ###################################
 @app.route('/all_issues')
 def issues():
     
