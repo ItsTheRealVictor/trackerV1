@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
+from sqlalchemy import desc
 from models import db, connect_db, User, Test, Issue
 from forms import LoginForm, RegisterUserForm, TestForm, IssueForm
 from sqlalchemy.exc import IntegrityError
@@ -87,7 +88,7 @@ def logout():
 
 @app.route('/all_tests')
 def dashboard():
-    tests = Test.query.all()
+    tests = Test.query.order_by(desc(Test.end)).all()
     return render_template('all_tests.html', tests=tests)
 
 
@@ -143,6 +144,9 @@ def delete_test(test_id):
     return redirect('/all_tests')
 
 
+@app.route('/users/tests/<int:test_id>/edit', methods=['GET', 'POST'])
+def edit_test(test_id):
+    test = Test.query.get_or_404(test_id)
 
 
 
@@ -153,7 +157,7 @@ def delete_test(test_id):
 @app.route('/all_issues')
 def issues():
     
-    issues = Issue.query.all()
+    issues = Issue.query.order_by(desc(Issue.date)).all()
     
     return render_template('all_issues.html', issues=issues)
 
