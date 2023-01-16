@@ -70,3 +70,8 @@ class Issue(db.Model):
 
     username = db.Column(db.Text, db.ForeignKey('users.username'))
     user = db.relationship('User', backref='Issue')
+
+
+class Tag(db.Model):
+    '''Need to figure out how to implement this. Its more complicated than it sounds'''
+    pass
