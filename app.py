@@ -6,6 +6,7 @@ from forms import LoginForm, RegisterUserForm, TestForm, IssueForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
 import datetime
+import calendar
 
 app = Flask(__name__)
 
@@ -115,6 +116,7 @@ def add_test(username):
         future_delta = datetime.timedelta(hours=duration)
         future_date = start + future_delta
         formatted_future_date = future_date.strftime('%a %Y-%m-%d')
+        future_date_datetime = datetime.datetime.strptime(formatted_future_date, '%a %Y-%m-%d').date()        # 
         
         
         
@@ -126,7 +128,7 @@ def add_test(username):
                         location=location, 
                         duration=duration, 
                         owner=owner,
-                        end=formatted_future_date)
+                        end=future_date_datetime)
     
         db.session.add(new_test)
         db.session.commit()
