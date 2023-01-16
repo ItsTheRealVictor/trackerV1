@@ -100,6 +100,7 @@ for test in tests:
     future_date = test['start'] + future_delta
     formatted_future_date = future_date.strftime('%a %Y-%m-%d')
     future_date_datetime = datetime.datetime.strptime(formatted_future_date, '%a %Y-%m-%d').date()
+    future_date_day = future_date_datetime.strftime('%a')  
 
     
     new = Test(lot_num=test['lot_num'],
@@ -109,7 +110,8 @@ for test in tests:
                start=test['start'],
                duration=test['duration'],
                owner=test['owner'],
-               end=future_date_datetime)
+               end=future_date_datetime,
+               endday = future_date_day)
 
     db.session.add(new)
     db.session.commit()

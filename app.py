@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
-from sqlalchemy import desc
+from sqlalchemy import desc, asc
 from models import db, connect_db, User, Test, Issue
 from forms import LoginForm, RegisterUserForm, TestForm, IssueForm
 from sqlalchemy.exc import IntegrityError
@@ -89,7 +89,7 @@ def logout():
 
 @app.route('/all_tests')
 def dashboard():
-    tests = Test.query.order_by(desc(Test.end)).all()
+    tests = Test.query.order_by(asc(Test.end)).all()
     return render_template('all_tests.html', tests=tests)
 
 
@@ -116,8 +116,9 @@ def add_test(username):
         future_delta = datetime.timedelta(hours=duration)
         future_date = start + future_delta
         formatted_future_date = future_date.strftime('%a %Y-%m-%d')
-        future_date_datetime = datetime.datetime.strptime(formatted_future_date, '%a %Y-%m-%d').date()        # 
-        
+        future_date_datetime = datetime.datetime.strptime(formatted_future_date, '%a %Y-%m-%d').date()        
+        future_date_day = future_date_datetime.strftime('%a')      
+
         
         
         
@@ -128,7 +129,8 @@ def add_test(username):
                         location=location, 
                         duration=duration, 
                         owner=owner,
-                        end=future_date_datetime)
+                        end=future_date_datetime,
+                        endday=future_date_day)
     
         db.session.add(new_test)
         db.session.commit()
