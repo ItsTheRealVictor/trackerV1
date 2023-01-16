@@ -111,3 +111,44 @@ for test in tests:
 
     db.session.add(new)
     db.session.commit()
+    
+    
+issues = [
+    {
+        'title': 'Propane accessories',
+        'text': 'Need to pick up some more propane accessories',
+        'username': 'HankHill',
+        'date': datetime.date(2022, 5, 5)
+    },
+    {
+        'title': 'Mow lawn',
+        'text': 'Need to mow the lawn before the boys come over tomorrow so they dont comment on it.',
+        'username': 'HankHill',
+        'date': datetime.date(2022, 3, 20)
+    },
+    {
+        'title': 'Boggle practice',
+        'text': 'I need to practice for the upcoming boggle championships this weekend',
+        'username': 'PeggyHill',
+        'date': datetime.date(2022, 6, 14)
+    },
+    {
+        'title': 'Material',
+        'text': 'This week I need to work on some material for my upcoming comedy show',
+        'username': 'BobbyHill',
+        'date': datetime.date(2023, 1, 4)
+    },
+    {
+        'title': 'Study',
+        'text': 'Need to meet up with Connie and Joseph this weekend to study',
+        'username': 'BobbyHill',
+        'date': datetime.date(2021, 11, 11)
+    }
+]
+for issue in issues:
+    new = Issue(title=issue['title'], 
+                text=issue['text'],
+                username=issue['username'],
+                date=issue['date'])
+    db.session.add(new)
+    db.session.commit()

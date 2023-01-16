@@ -5,5 +5,26 @@
 {% endblock title %}
 
 {% block body %}
-    <h1>Hello these are the current issues</h1>
+<h1>Hello these are the current issues</h1>
+
+
+{% for issue in issues %}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{issue.title}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Author: {{issue.username}}</h6>
+      <h6 class="card-subtitle mb-2 text-muted">{{issue.date}}</h6>
+      <p class="card-text">{{issue.text}}</p>
+        {% if session['username'] == issue.username %}
+        <a href="#" class="btn btn-primary">Edit Issue</a>
+        <a href="#" class="btn btn-danger">Delete Issue</a>
+        
+        {% else %}
+        <a href="#" class="btn btn-warning">Add comment</a>
+        <a href="#" class="btn btn-primary">View full text</a>
+            
+        {% endif %}
+    </div>
+  </div>
+{% endfor %}
 {% endblock body %}

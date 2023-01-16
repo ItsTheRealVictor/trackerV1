@@ -65,6 +65,7 @@ class Issue(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.Text, info={'label': 'Title'})
     text = db.Column(db.Text, info={'label': 'Issue content'})
+    date = db.Column(db.Date, default=datetime.datetime.utcnow, info={'label': 'Date'})
 
     username = db.Column(db.Text, db.ForeignKey('users.username'))
     user = db.relationship('User', backref='Issue')

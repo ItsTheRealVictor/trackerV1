@@ -146,7 +146,10 @@ def add_test(username):
 
 @app.route('/all_issues')
 def issues():
-    return render_template('all_issues.html')
+    
+    issues = Issue.query.all()
+    
+    return render_template('all_issues.html', issues=issues)
 
 @app.route('/users/<username>/issues/add', methods=['GET', 'POST'])
 def add_issue(username):
@@ -160,8 +163,9 @@ def add_issue(username):
     if form.validate_on_submit():
         title = form.title.data
         text = form.text.data
+        username = session['username']
 
-        new_issue = Issue(title=title, text=text)
+        new_issue = Issue(title=title, text=text, username=username)
     
         db.session.add(new_issue)
         db.session.commit()
