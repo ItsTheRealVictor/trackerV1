@@ -24,7 +24,7 @@ class RegisterUserForm(FlaskForm):
 class TestForm(ModelForm):
     class Meta:
         model = Test
-        exclude = ['end']
+        exclude = ['end', 'endday']
 
 class IssueForm(ModelForm):
     class Meta:

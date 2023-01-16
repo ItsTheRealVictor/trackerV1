@@ -55,6 +55,7 @@ class Test(db.Model):
     duration = db.Column(db.Integer, info={'label': 'Test duration (hours)'})
     owner = db.Column(db.Text, info={'label': 'Lot owner'})
     end = db.Column(db.Text)
+    endday = db.Column(db.Text)
         
         
 
