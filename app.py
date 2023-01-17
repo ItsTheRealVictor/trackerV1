@@ -84,7 +84,8 @@ def logout():
 
 @app.route('/change_password')
 def change_password():
-    
+    pass
+
 
 #################### App Function Routes ####################
 
