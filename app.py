@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template, redirect, flash, ses
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import desc, asc
 from models import db, connect_db, User, Test, Issue
-from forms import LoginForm, RegisterUserForm, TestForm, IssueForm
+from forms import LoginForm, RegisterUserForm, TestForm, IssueForm, IssueCommentForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
 import datetime
@@ -198,7 +198,10 @@ def delete_issue(username, issue_id):
 
 ######################### Comment Routes ###################################
 
-@app.route('/add_comment')
-def add_issue_comment():
+@app.route('/users/<username>/issues/<int:issue_id>/comment')
+def add_issue_comment(username, issue_id):
     '''Need to implement: Adding comments to issues and tests'''
-    pass
+    issue = Issue.query.get_or_404(issue_id)
+    form = IssueCommentForm()
+
+    return render_template('add_issue_comment.html', form=form)

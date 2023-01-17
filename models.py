@@ -71,6 +71,13 @@ class Issue(db.Model):
     username = db.Column(db.Text, db.ForeignKey('users.username'))
     user = db.relationship('User', backref='Issue')
 
-class Comment(db.Model):
+class IssueComment(db.Model):
     '''Need to implement'''
-    pass
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    text = db.Column(db.Text, info={'lablel': 'Comment text'})
+    timestamp = db.Column(db.Date, default=datetime.datetime.utcnow, info={'label', 'Date'})
+
+    username = db.Column(db.Text, db.ForeignKey('users.username'))
+    parent_issue = db.Column(db.Text, db.ForeignKey('issues.id'))
+    issue = db.relationship('Issue', backref='IssueComment')

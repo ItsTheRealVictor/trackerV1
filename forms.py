@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms_alchemy import model_form_factory
-from models import db, User, Test, Issue
+from models import db, User, Test, Issue, IssueComment
 from wtforms.validators import InputRequired
 
 
@@ -34,6 +34,8 @@ class IssueForm(ModelForm):
     class Meta:
         model = Issue
 
-class CommentForm(FlaskForm):
+class IssueCommentForm(FlaskForm):
     '''Need to implement'''
-    pass
+    class Meta:
+        model = IssueComment
+        exclude = ['timestamp']
