@@ -84,6 +84,7 @@ def logout():
 
 @app.route('/change_password')
 def change_password():
+    '''Need to implement'''
     pass
 
 
