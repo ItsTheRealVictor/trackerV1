@@ -74,4 +74,5 @@ class Issue(db.Model):
 
 class Tag(db.Model):
     '''Need to figure out how to implement this. Its more complicated than it sounds'''
-    pass
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    
