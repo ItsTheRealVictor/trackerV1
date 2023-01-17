@@ -15,15 +15,16 @@
       <h6 class="card-subtitle mb-2 text-muted">Author: {{issue.username}}</h6>
       <h6 class="card-subtitle mb-2 text-muted">{{issue.date}}</h6>
       <p class="card-text">{{issue.text}}</p>
-        {% if session['username'] == issue.username %}
-        <a href="#" class="btn btn-primary">Edit Issue</a>
-        <a href="/users/{{session['username']}}/issues/{{issue.id}}/delete" class="btn btn-danger">Delete Issue</a>
-        
-        {% else %}
-        <a href="#" class="btn btn-warning">Add comment</a>
-        <a href="#" class="btn btn-primary">View full text</a>
-            
-        {% endif %}
+      {% if session['username'] == issue.username %}
+      <a href="#" class="btn btn-primary mb-2">Edit Issue</a>
+      <a href="/users/{{session['username']}}/issues/{{issue.id}}/delete" class="btn btn-danger mb-2">Delete Issue</a>
+      
+      {% else %}
+      <a href="#" class="btn btn-warning">Add comment</a>
+      <a href="#" class="btn btn-primary">View full text</a>
+      
+      {% endif %}
+      <input type="checkbox" checked data-toggle="toggle" data-style="mt-1" data-on="Issue<br>Unsolved!" data-off="Issue<br>Solved!" data-onstyle="danger" data-offstyle="success">
     </div>
   </div>
 {% endfor %}
