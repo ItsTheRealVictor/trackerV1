@@ -21,10 +21,13 @@
               <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
-                    <a class="nav-link" href="/all_tests">View all tests</a>
+                    <a class="nav-link" href="/all_tests">View all current tests</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/all_issues">View all issues</a>
+                    <a class="nav-link" href="/all_issues">View all current issues</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/users/{{session['username']}}/issues/archive">View issue archive</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/users/{{session['username']}}/issues/add">add issue</a>

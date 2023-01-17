@@ -199,3 +199,20 @@ def delete_issue(username, issue_id):
         db.session.delete(issue)
         db.session.commit()
         return redirect('/all_issues')
+
+@app.route('/users/<username>/issues/archive', methods=['GET', 'POST'])
+def view_issue_archive(username):
+    issues = Issue.query.all()
+    if session['username'] == username:
+        pass
+
+    return render_template('issue_archive.html', issues=issues)
+
+@app.route('/users/<username>/<int:issue_id>/add_to_archive', methods=['GET', 'POST'])
+def archive_issue(username, issue_id):
+    print('A')
+    archived_issue = Issue.query.get_or_404(issue_id)
+    archived_issue.archived = True
+    db.session.add(archived_issue)
+    db.session.commit()
+    return redirect('/all_issues')
