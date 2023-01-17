@@ -21,6 +21,10 @@ class RegisterUserForm(FlaskForm):
     password = PasswordField('Password')
     email = StringField('Email address') 
 
+class ChangePasswordForm(FlaskForm):
+    new_password = PasswordField('Password', validators=[InputRequired()])
+    verify_password = PasswordField('Enter Password again', validators=[InputRequired()])
+
 class TestForm(ModelForm):
     class Meta:
         model = Test

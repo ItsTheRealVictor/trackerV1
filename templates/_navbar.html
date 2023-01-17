@@ -1,20 +1,51 @@
 
     {% if session['username'] %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/">Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-item nav-link" href="/all_tests">View all tests</a>
-            <a class="nav-item nav-link" href="/all_issues">View all issues</a>
-            <a class="nav-item nav-link" href="/users/{{session['username']}}/issues/add">add issue</a>
-            <a class="nav-item nav-link" href="/users/{{session['username']}}/tests/add">add parts/tests</a>
-            <a class="nav-item nav-link" href="/logout">logout</a>
-          </div>
-        </div>
-    <p>currently logged in as {{session['username']}}</p>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item nav-link" href="/all_tests">View all tests</li>
+            <li class="nav-item nav-link" href="/all_issues">View all issues</li>
+            <li class="nav-item nav-link" href="/users/{{session['username']}}/issues/add">add issue</li>
+            <li class="nav-item nav-link" href="/users/{{session['username']}}/tests/add">add parts/tests</li>
+            <li class="nav-item nav-link" href="/logout">logout</li> -->
+
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/all_tests">View all tests</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/all_issues">View all issues</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/users/{{session['username']}}/issues/add">add issue</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/users/{{session['username']}}/tests/add">add test</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/logout">logout</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/change_password">change password</a>
+                  </li>
+                </ul>
+                <span class="navbar-text">
+                  currently logged in as {{session['username']}} 
+                </span>
+              </div>
+            </nav>
+        </ul>
+    </nav>
     {% else %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/">Home</a>
@@ -23,11 +54,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/register">Register<span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="/login">login</a>
-            <a class="nav-item nav-link" href="/logout">logout</a>
           </div>
         </div>
       <p>not logged in</p>
+    </nav>
     {% endif %}
-  </nav>

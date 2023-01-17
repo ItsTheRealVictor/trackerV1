@@ -82,6 +82,9 @@ def logout():
     flash('Goodbye')
     return redirect('/')
 
+@app.route('/change_password')
+def change_password():
+    
 
 #################### App Function Routes ####################
 
