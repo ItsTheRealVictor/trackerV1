@@ -82,12 +82,6 @@ def logout():
     flash('Goodbye')
     return redirect('/')
 
-@app.route('/change_password')
-def change_password():
-    '''Need to implement'''
-    pass
-
-
 #################### App Function Routes ####################
 
 #################### tests ####################
@@ -200,3 +194,11 @@ def delete_issue(username, issue_id):
         db.session.delete(issue)
         db.session.commit()
         return redirect('/all_issues')
+
+
+######################### Comment Routes ###################################
+
+@app.route('/add_comment')
+def add_issue_comment():
+    '''Need to implement: Adding comments to issues and tests'''
+    pass

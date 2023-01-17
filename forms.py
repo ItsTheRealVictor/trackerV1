@@ -33,3 +33,7 @@ class TestForm(ModelForm):
 class IssueForm(ModelForm):
     class Meta:
         model = Issue
+
+class CommentForm(FlaskForm):
+    '''Need to implement'''
+    pass

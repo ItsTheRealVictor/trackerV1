@@ -70,3 +70,7 @@ class Issue(db.Model):
 
     username = db.Column(db.Text, db.ForeignKey('users.username'))
     user = db.relationship('User', backref='Issue')
+
+class Comment(db.Model):
+    '''Need to implement'''
+    pass
