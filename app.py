@@ -143,13 +143,13 @@ def add_test(username):
     return render_template('add_test.html', form=form)
 
 
-@app.route('/users/tests/<int:test_id>/delete', methods=['GET', 'POST '])
-def delete_test(test_id):
+@app.route('/users/<username>/tests/<int:test_id>/delete', methods=['GET', 'POST '])
+def delete_test(username, test_id):
     test = Test.query.get_or_404(test_id)
     db.session.delete(test)
     db.session.commit()
     flash('TEST DELETED')
-    return redirect('/all_tests')
+    return redirect('/all_tests', username=username)
 
 @app.route('/users/<username>/tests/archive', methods=['GET', 'POST'])
 def view_test_archive(username):
@@ -159,7 +159,7 @@ def view_test_archive(username):
 
     return render_template('test_archive.html', tests=tests)
 
-@app.route('/users/<username>/<int:test_id>/add_to_archive', methods=['GET', 'POST'])
+@app.route('/users/<username>/tests/<int:test_id>/add_to_archive', methods=['GET', 'POST'])
 def archive_test(username, test_id):
 
     archived_test = Test.query.get_or_404(test_id)
@@ -170,7 +170,7 @@ def archive_test(username, test_id):
 
     return redirect('/all_tests')
 
-@app.route('/users/<username>/<int:test_id>/move_out_from_archive', methods=['GET', 'POST'])
+@app.route('/users/<username>/tests/<int:test_id>/move_out_from_archive', methods=['GET', 'POST'])
 def dearchive_test(username, test_id):
     dearchived_test = Test.query.get_or_404(test_id)
     dearchived_test.archived = False
@@ -183,7 +183,7 @@ def dearchive_test(username, test_id):
 
 
 
-@app.route('/users/tests/<int:test_id>/edit', methods=['GET', 'POST'])
+@app.route('/users/<username>/tests/<int:test_id>/edit', methods=['GET', 'POST'])
 def edit_test(test_id):
     test = Test.query.get_or_404(test_id)
     pass
@@ -238,7 +238,7 @@ def view_issue_archive(username):
 
     return render_template('issue_archive.html', issues=issues)
 
-@app.route('/users/<username>/<int:issue_id>/add_to_archive', methods=['GET', 'POST'])
+@app.route('/users/<username>/issues/<int:issue_id>/add_to_archive', methods=['GET', 'POST'])
 def archive_issue(username, issue_id):
 
     archived_issue = Issue.query.get_or_404(issue_id)
@@ -249,7 +249,7 @@ def archive_issue(username, issue_id):
 
     return redirect('/all_issues')
 
-@app.route('/users/<username>/<int:issue_id>/move_out_from_archive', methods=['GET', 'POST'])
+@app.route('/users/<username>/issues/<int:issue_id>/move_out_from_archive', methods=['GET', 'POST'])
 def dearchive_issue(username, issue_id):
     dearchived_issue = Issue.query.get_or_404(issue_id)
     dearchived_issue.archived = False

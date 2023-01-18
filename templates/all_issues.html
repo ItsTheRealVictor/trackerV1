@@ -20,7 +20,7 @@
     {% if session['username'] == issue.username %}
     <a href="#" class="btn btn-primary mb-2">Edit Issue</a>
     <a href="/users/{{session['username']}}/issues/{{issue.id}}/delete" class="btn btn-danger mb-2">Delete Issue</a>
-    <form action="/users/{{session['username']}}/{{issue.id}}/add_to_archive">
+    <form action="/users/{{session['username']}}/issues/{{issue.id}}/add_to_archive">
       <button class="btn btn-info mb-2">Archive Issue</button>
     </form>
     
