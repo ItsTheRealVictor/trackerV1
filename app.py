@@ -219,7 +219,7 @@ def add_issue(username):
     
         db.session.add(new_issue)
         db.session.commit()
-        return redirect(f'/farts')
+        return redirect(f'/all_issues')
 
     return render_template('add_issue.html', form=form)
 
@@ -230,7 +230,7 @@ def delete_issue(username, issue_id):
     if session['username'] == username:
         db.session.delete(issue)
         db.session.commit()
-        return redirect('/farts')
+        return redirect('/all_issues')
 
 @app.route('/users/<username>/issues/archive', methods=['GET', 'POST'])
 def view_issue_archive(username):
@@ -247,7 +247,7 @@ def archive_issue(username, issue_id):
     db.session.commit()
     flash(f'{archived_issue.title} has been moved into the archive')
 
-    return redirect('/farts')
+    return redirect('/all_issues')
 
 @app.route('/users/<username>/<int:issue_id>/move_out_from_archive', methods=['GET', 'POST'])
 def dearchive_issue(username, issue_id):
