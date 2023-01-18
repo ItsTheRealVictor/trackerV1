@@ -56,6 +56,7 @@ class Test(db.Model):
     owner = db.Column(db.Text, info={'label': 'Lot owner'})
     end = db.Column(db.Text)
     endday = db.Column(db.Text)
+    archived = db.Column(db.Text, default=False)
         
         
 

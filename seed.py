@@ -50,7 +50,8 @@ tests = [
         'duration': 500,
         'start': datetime.date(2023, 12, 25),
         'owner': 'Kahn Souphanousinphone',
-        'end': ''
+        'end': '',
+        'archived': False
     },
     {
         'lot_num': 'RA572487-35',
@@ -60,7 +61,8 @@ tests = [
         'start': datetime.date(2023, 10, 4),
         'duration': 24,
         'owner': 'Joseph Gribble',
-        'end': ''
+        'end': '',
+        'archived': False
     },
     {
         'lot_num': 'RA128346-1',
@@ -70,7 +72,8 @@ tests = [
         'start': datetime.date(2022, 6, 14),
         'duration': 96,
         'owner': 'Dale Gribble',
-        'end': ''
+        'end': '',
+        'archived': False
     },
     {
         'lot_num': 'RA159456-1',
@@ -80,7 +83,8 @@ tests = [
         'start': datetime.date(2022, 1, 24),
         'duration': 192,
         'owner': 'Luanne Platter',
-        'end': ''
+        'end': '',
+        'archived': False
     },
     {
         'lot_num': 'RA127755-1',
@@ -90,7 +94,8 @@ tests = [
         'start': datetime.date(2023, 1, 1),
         'duration': 332,
         'owner': 'Bill Dautrieve',
-        'end': ''
+        'end': '',
+        'archived': False
     },
 
 ]
@@ -111,7 +116,8 @@ for test in tests:
                duration=test['duration'],
                owner=test['owner'],
                end=future_date_datetime,
-               endday = future_date_day)
+               endday = future_date_day,
+               archived = test['archived'])
 
     db.session.add(new)
     db.session.commit()

@@ -151,10 +151,42 @@ def delete_test(test_id):
     flash('TEST DELETED')
     return redirect('/all_tests')
 
+@app.route('/users/<username>/tests/archive', methods=['GET', 'POST'])
+def view_test_archive(username):
+    tests = Test.query.all()
+    if session['username'] == username:
+        pass
+
+    return render_template('test_archive.html', tests=tests)
+
+@app.route('/users/<username>/<int:test_id>/add_to_archive', methods=['GET', 'POST'])
+def archive_test(username, test_id):
+
+    archived_test = Test.query.get_or_404(test_id)
+    archived_test.archived = True
+    db.session.add(archived_test)
+    db.session.commit()
+    flash(f'{archived_test.lot_num} has been moved into the archive')
+
+    return redirect('/all_tests')
+
+@app.route('/users/<username>/<int:test_id>/move_out_from_archive', methods=['GET', 'POST'])
+def dearchive_test(username, test_id):
+    dearchived_test = Test.query.get_or_404(test_id)
+    dearchived_test.archived = False
+    db.session.add(dearchived_test)
+    db.session.commit()
+    flash(f'{dearchived_test.lot_num} has been moved out of the archive')
+    return redirect(f'/all_tests')
+
+
+
+
 
 @app.route('/users/tests/<int:test_id>/edit', methods=['GET', 'POST'])
 def edit_test(test_id):
     test = Test.query.get_or_404(test_id)
+    pass
 
 
 

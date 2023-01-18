@@ -11,6 +11,8 @@
                       Issues
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="/users/{{session['username']}}/issues/add">Add Issue</a>
+                      <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="/all_issues">View all current issues</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="/users/{{session['username']}}/issues/archive">View issue archive</a>
@@ -24,6 +26,8 @@
                       <a class="dropdown-item" href="/users/{{session['username']}}/tests/add">add test</a>
                       <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/all_tests">View all current tests</a>
+                      <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/users/{{session['username']}}/tests/archive">View test archive</a>
                       </li>
                     </div>
                   </li>

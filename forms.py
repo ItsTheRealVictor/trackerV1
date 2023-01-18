@@ -28,8 +28,9 @@ class ChangePasswordForm(FlaskForm):
 class TestForm(ModelForm):
     class Meta:
         model = Test
-        exclude = ['end', 'endday']
+        exclude = ['end', 'endday', 'archived']
 
 class IssueForm(ModelForm):
     class Meta:
         model = Issue
+        exclude = ['archived']

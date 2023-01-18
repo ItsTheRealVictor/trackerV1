@@ -8,19 +8,24 @@
     <h1>Hello these are the current tests</h1>
 
     {% for test in tests %}
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">{{test.test_name}}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{test.location}}</h6>
-          <h6 class="card-subtitle mb-2 text-muted">{{test.duration}} hours</h6>
-          <h6 class="card-subtitle mb-2 text-muted">Start date: {{test.start}}</h6>
-          <h6 class="card-subtitle mb-2 text-muted">End date: {{test.endday}} {{test.end}}</h6>
-          <p class="card-text">{{test.lot_num}}</p>
-          <a href="#" class="btn btn-primary">Edit Test</a>
-          <a href="/users/tests/{{test.id}}/delete" class="btn btn-danger">Delete Test</a>
-          
-        </div>
-      </div>
-    {% endfor %}
+          {% if test.archived == '0' %}
+              <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">{{test.test_name}}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">{{test.location}}</h6>
+                  <h6 class="card-subtitle mb-2 text-muted">{{test.duration}} hours</h6>
+                  <h6 class="card-subtitle mb-2 text-muted">Start date: {{test.start}}</h6>
+                  <h6 class="card-subtitle mb-2 text-muted">End date: {{test.endday}} {{test.end}}</h6>
+                  <p class="card-text">{{test.lot_num}}</p>
+                  <a href="#" class="btn btn-primary">Edit Test</a>
+                  <a href="/users/tests/{{test.id}}/delete" class="btn btn-danger">Delete Test</a>
+                  <form action="/users/{{session['username']}}/{{test.id}}/add_to_archive">
+                    <button class="btn btn-info mb-2 mt-1">Archive test</button>
+                  </form>
+                  
+                </div>
+              </div>
+          {% endif %}
+      {% endfor %}
 
 {% endblock body %}
