@@ -210,9 +210,20 @@ def view_issue_archive(username):
 
 @app.route('/users/<username>/<int:issue_id>/add_to_archive', methods=['GET', 'POST'])
 def archive_issue(username, issue_id):
-    print('A')
+
     archived_issue = Issue.query.get_or_404(issue_id)
     archived_issue.archived = True
     db.session.add(archived_issue)
     db.session.commit()
+    flash(f'{archived_issue.title} has been moved into the archive')
+
     return redirect('/all_issues')
+
+@app.route('/users/<username>/<int:issue_id>/move_out_from_archive', methods=['GET', 'POST'])
+def dearchive_issue(username, issue_id):
+    dearchived_issue = Issue.query.get_or_404(issue_id)
+    dearchived_issue.archived = False
+    db.session.add(dearchived_issue)
+    db.session.commit()
+    flash(f'{dearchived_issue.title} has been moved out of the archive')
+    return redirect(f'/users/{username}/issues/archive')

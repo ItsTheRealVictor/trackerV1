@@ -137,6 +137,13 @@ issues = [
         'text': 'I need to practice for the upcoming boggle championships this weekend',
         'username': 'PeggyHill',
         'date': datetime.date(2022, 6, 14),
+        'archived': True
+    },
+    {
+        'title': 'Softball game',
+        'text': 'Softball game in the evening, substitute teachers v. the boggle club.',
+        'username': 'PeggyHill',
+        'date': datetime.date(2022, 3, 5),
         'archived': False
     },
     {
@@ -151,6 +158,13 @@ issues = [
         'text': 'Need to meet up with Connie and Joseph this weekend to study',
         'username': 'BobbyHill',
         'date': datetime.date(2021, 11, 11),
+        'archived': False
+    },
+    {
+        'title': 'Camping trip this weekend',
+        'text': 'Get camping gear organized for the upcoming trip with the boys',
+        'username': 'BobbyHill',
+        'date': datetime.date(2021, 9, 5),
         'archived': False
     }
 ]
