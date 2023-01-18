@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block body %}
+
+    <h1>The Issue Archive</h1>
+    <p>Implement a sorting function here. (i.e. sort by user, date, etc)</p>
     {% for issue in issues %}
         {% if issue.archived == '1' %}
         <div class="card" style="width: 18rem;">
