@@ -177,7 +177,7 @@ def dearchive_test(username, test_id):
     db.session.add(dearchived_test)
     db.session.commit()
     flash(f'{dearchived_test.lot_num} has been moved out of the archive')
-    return redirect(f'/all_tests')
+    return redirect(f'/users/{username}/tests/archive')
 
 
 
@@ -219,7 +219,7 @@ def add_issue(username):
     
         db.session.add(new_issue)
         db.session.commit()
-        return redirect(f'/all_issues')
+        return redirect(f'/farts')
 
     return render_template('add_issue.html', form=form)
 
@@ -230,13 +230,11 @@ def delete_issue(username, issue_id):
     if session['username'] == username:
         db.session.delete(issue)
         db.session.commit()
-        return redirect('/all_issues')
+        return redirect('/farts')
 
 @app.route('/users/<username>/issues/archive', methods=['GET', 'POST'])
 def view_issue_archive(username):
     issues = Issue.query.all()
-    if session['username'] == username:
-        pass
 
     return render_template('issue_archive.html', issues=issues)
 
@@ -249,7 +247,7 @@ def archive_issue(username, issue_id):
     db.session.commit()
     flash(f'{archived_issue.title} has been moved into the archive')
 
-    return redirect('/all_issues')
+    return redirect('/farts')
 
 @app.route('/users/<username>/<int:issue_id>/move_out_from_archive', methods=['GET', 'POST'])
 def dearchive_issue(username, issue_id):
