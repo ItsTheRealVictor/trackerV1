@@ -89,19 +89,8 @@ def logout():
 
 @app.route('/users/<username>/change_password', methods=['GET', 'POST'])
 def change_password(username):
-    title = 'Change Password'
-    user = User.query.get_or_404(username)
-    form = ChangePasswordForm(username=user.username, changing=True, title=title)
-    if form.validate_on_submit():
-        valid = flask_change_password.verify_password_change_form(form)
-        if valid:
-            return redirect('/', title='changed', new_password=form.password.data)
-
-        return redirect('/')
-    password_template = flask_change_password.change_password_template(form, submit_text='Change')
-    return render_template('change_password.html', password_template=password_template, title=title, form=form,
-                           user=dict(username=user.username),
-                           )
+    '''This is a pain in the ass, I need to implement this later'''
+    pass
 
 
 
