@@ -31,6 +31,14 @@ class User(db.Model):
         return cls(username=username, 
                    password=hashed_utf8,
                    email=email)
+
+    @classmethod
+    def change_password(cls, username, pwd):
+
+        hashed = bcrypt.generate_password_hash(pwd)
+        hashed_utf8 = hashed.decode('utf8')
+
+        return cls(username=username, password=hashed_utf8)
     
     @classmethod
     def authenticate_user(cls, username, pwd):

@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template, redirect, flash, ses
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import desc, asc
 from models import db, connect_db, User, Test, Issue
-from forms import LoginForm, RegisterUserForm, TestForm, IssueForm
+from forms import LoginForm, RegisterUserForm, TestForm, IssueForm, ChangePasswordForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
 import datetime
@@ -72,7 +72,7 @@ def login():
             session['username'] = user.username
             return redirect('/')
         else:
-            form.username.errors = ['INVALID PASSORD!']
+            form.username.errors = ['INVALID PASSWORD!']
             
     return render_template('login.html', form=form)
 
@@ -82,10 +82,24 @@ def logout():
     flash('Goodbye')
     return redirect('/')
 
-@app.route('/change_password')
-def change_password():
+@app.route('/users/<username>/change_password', methods=['GET', 'POST'])
+def change_password(username):
     '''Need to implement'''
-    pass
+    user = User.query.get_or_404(username)
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        if form.new_password.data != form.verify_password.data:
+            flash("your passwords don't match")
+        else:
+            user = User.change_password(username, form.verify_password.data)
+            db.session.add(user)
+            db.session.commit()
+            flash('password successfully changed')
+            return redirect('/')
+
+    return render_template('change_password.html', form = form)
+
+
 
 
 #################### App Function Routes ####################
