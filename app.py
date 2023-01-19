@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_change_password import ChangePassword, ChangePasswordForm,  SetPasswordForm
 from sqlalchemy import desc, asc
 from models import db, connect_db, User, Test, Issue
 from forms import LoginForm, RegisterUserForm, TestForm, IssueForm, ChangePasswordForm
@@ -9,6 +10,10 @@ import datetime
 import calendar
 
 app = Flask(__name__)
+
+flask_change_password = ChangePassword(min_password_length=8, rules=dict(long_password_override=2))
+flask_change_password.init_app(app)
+
 
 app.config['SECRET_KEY'] = 'asdf'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = -1
@@ -84,20 +89,19 @@ def logout():
 
 @app.route('/users/<username>/change_password', methods=['GET', 'POST'])
 def change_password(username):
-    '''Need to implement'''
+    title = 'Change Password'
     user = User.query.get_or_404(username)
-    form = ChangePasswordForm()
+    form = ChangePasswordForm(username=user.username, changing=True, title=title)
     if form.validate_on_submit():
-        if form.new_password.data != form.verify_password.data:
-            flash("your passwords don't match")
-        else:
-            user = User.change_password(username, form.verify_password.data)
-            db.session.add(user)
-            db.session.commit()
-            flash('password successfully changed')
-            return redirect('/')
+        valid = flask_change_password.verify_password_change_form(form)
+        if valid:
+            return redirect('/', title='changed', new_password=form.password.data)
 
-    return render_template('change_password.html', form = form)
+        return redirect('/')
+    password_template = flask_change_password.change_password_template(form, submit_text='Change')
+    return render_template('change_password.html', password_template=password_template, title=title, form=form,
+                           user=dict(username=user.username),
+                           )
 
 
 
