@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_change_password import ChangePassword, ChangePasswordForm,  SetPasswordForm
 from sqlalchemy import desc, asc
 from models import db, connect_db, User, Test, Issue
 from forms import LoginForm, RegisterUserForm, TestForm, IssueForm, ChangePasswordForm
@@ -10,9 +9,6 @@ import datetime
 import calendar
 
 app = Flask(__name__)
-
-flask_change_password = ChangePassword(min_password_length=8, rules=dict(long_password_override=2))
-flask_change_password.init_app(app)
 
 
 app.config['SECRET_KEY'] = 'asdf'
@@ -90,7 +86,10 @@ def logout():
 @app.route('/users/<username>/change_password', methods=['GET', 'POST'])
 def change_password(username):
     '''This is a pain in the ass, I need to implement this later'''
-    pass
+    user = User.query.get_or_404(username)
+    form = ChangePasswordForm()
+
+    return render_template('change_password.html')
 
 
 
