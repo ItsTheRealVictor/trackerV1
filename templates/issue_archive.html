@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block body %}
+  <h1>Issue archive</h1>
+
     {% for issue in issues %}
         {% if issue.archived == '1' %}
         <div class="card" style="width: 18rem;">
