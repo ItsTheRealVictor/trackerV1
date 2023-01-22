@@ -13,6 +13,11 @@ db.create_all()
 
 users = [
     {
+        'username': 'test',
+        'password': 'test',
+        'email': 'test@test.com'
+    },
+    {
         'username': 'HankHill',
         'password': 'propane',
         'email': 'hank@strickland.com'

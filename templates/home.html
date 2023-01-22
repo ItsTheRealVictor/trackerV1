@@ -4,7 +4,21 @@
     {% block title %}
         <title>Welcome to the tracker</title>
     {% endblock %}
-
+    
     {% block body %}
+
+
+
+    {% if not session['username'] %}
+        <h1>Hello!</h1>
+            <p>
+                This is a demo version of the issue tracker
+                <br>
+                To try the tracker out for yourself, you can login with the username "test", and the password "test"
+            </p>
+    {% endif %}
+
+
+
     {% endblock body %}
     
