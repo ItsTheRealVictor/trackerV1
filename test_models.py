@@ -3,7 +3,11 @@ from unittest import TestCase
 from sqlalchemy import exc
 
 from app import app
-from models import db, User
+from models import db, connect_db, User
+from forms import LoginForm
+
+connect_db(app)
+app.app_context().push()
 
 
 # home computer DB 
@@ -63,5 +67,20 @@ class UserModelTestCase(TestCase):
         users = User.query.all()
         for user in users:
 
-            self.assertEqual(len(user.tests), 0)
-            self.assertEqual(len(user.issues), 0)
+            # test that 4 users were added to the DB
+            self.assertEqual(len(users), 4)
+
+    def test_user_login(self):
+        '''testing user registration basics'''
+
+        # testing that correct username and password results in successful login
+        t_user = 'JerrySeinfeld'
+        t_pass = 'whatsthedealwiththat'
+        valid_user = User.authenticate_user(t_user, t_pass)
+
+        self.assertEqual(valid_user.username, 'JerrySeinfeld')
+
+    def test_bad_password(self):
+        t_other_user = 'GeorgeCostanza'
+        self.assertFalse(User.authenticate_user(t_other_user, 'Goretex')) #password has incorrect case (g should be lowercase)
+
