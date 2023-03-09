@@ -6,6 +6,9 @@
 
 {% block body %}
     <h1>These are the current tests</h1>
+    {% if session['username'] == 'test' %}
+      <p>Welcome, visitor! Tests may be edited, deleted, or added to the archive by anyone on the team. As an honorary team member, try it out for yourself!</p>
+    {% endif %}
 
     {% for test in tests %}
           {% if test.archived == '0' %}

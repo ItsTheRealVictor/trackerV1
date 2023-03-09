@@ -6,7 +6,11 @@
     {% endblock %}
     
     {% block body %}
-
+    {% if session['username'] == 'test' %}
+        <p>Welcome to a demo version of the issue tracker! Feel free to explore the site. Any changes you make will not persist, so please try out
+            any features.
+        </p>
+    {% endif %}
 
 
     {% if not session['username'] %}

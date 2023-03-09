@@ -6,7 +6,9 @@
 
 {% block body %}
 <h1>These are the current issues</h1>
-
+{% if session['username'] == 'test' %}
+  <p>Welcome, visitor! Only the author of an issue may edit, delete or add it to the archive. Try adding your own issue at the top left!</p>
+{% endif %}
 
 {% for issue in issues %}
 {% if issue.archived == '0' %}
@@ -24,10 +26,9 @@
       <button class="btn btn-info mb-2">Archive Issue</button>
     </form>
     
-      {% else %}
-      <a href="#" class="btn btn-warning">Add comment</a>
-      <a href="#" class="btn btn-primary">View full text</a>
-      
+    
+    {% elif session['username'] == 'test' %}    
+
       {% endif %}
       
     </div>
