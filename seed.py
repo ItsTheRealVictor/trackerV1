@@ -1,4 +1,4 @@
-from models import db, connect_db, User, Test, Issue
+from models import db, connect_db, User, Test, Issue, Message
 from app import app
 import datetime
 
@@ -182,3 +182,30 @@ for issue in issues:
                 archived=issue['archived'])
     db.session.add(new)
     db.session.commit()
+
+
+messages = [
+    {
+        'id': 1,
+        'sender_id': 1,
+        'receiver_id': 2,
+        'body': "Hello Peggy. I am your husband, Hank",
+    },
+    {
+        'id': 2,
+        'sender_id': 2,
+        'receiver_id': 1,
+        'body': 'Hey Hank. What time is softball practice tonight?'
+    }
+]
+
+for message in messages:
+    new = Message(id = message['id'],
+                    sender_id=message['sender_id'],
+                    receiver_id=message['receiver_id'],
+                    body=message['body'])
+    db.session.add(new)
+    db.session.commit()
+
+
+    

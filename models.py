@@ -10,13 +10,27 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
     
+class Message(db.Model):
+
+    __tablename__ = 'messages'
+
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default = datetime.datetime.utcnow)
 
 class User(db.Model):
     __tablename__ = 'users'
     
-    username = db.Column(db.String(20), primary_key=True, unique=True, )
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True)
     password = db.Column(db.Text, nullable=False)
     email = db.Column(db.String(50), nullable=False)
+
+    sent_msgs = db.relationship('Message', foreign_keys=Message.sender_id, backref='author', lazy='dynamic')
+    received_msgs = db.relationship('Message', foreign_keys=Message.receiver_id, backref='recipient', lazy='dynamic')
+
 
     def __repr__(self):
         return f'{self.username}'
@@ -72,3 +86,4 @@ class Issue(db.Model):
 
     username = db.Column(db.Text, db.ForeignKey('users.username'))
     user = db.relationship('User', backref='Issue')
+

@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import desc, asc
-from models import db, connect_db, User, Test, Issue
+from models import db, connect_db, User, Test, Issue, Message
 from forms import LoginForm, RegisterUserForm, TestForm, IssueForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
