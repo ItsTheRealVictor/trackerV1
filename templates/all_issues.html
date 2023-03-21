@@ -17,15 +17,18 @@
     <h6 class="card-subtitle mb-2 text-muted">Author: {{issue.username}}</h6>
     <h6 class="card-subtitle mb-2 text-muted">{{issue.date}}</h6>
     <p class="card-text">{{issue.text}}</p>
+    <h6 class="card-title">Comments</h5>
+      <p class="card-text">{{issue.comment_text}}</p>
+    <a href="/users/{{g.user.username}}/issues/{{issue.id}}/add_comment" class="btn btn-info mb-2">Add comment</a>
     {% if g.user.username == issue.username %}
     <a href="#" class="btn btn-primary mb-2">Edit Issue</a>
-    <a href="/users/{{session['username']}}/issues/{{issue.id}}/delete" class="btn btn-danger mb-2">Delete Issue</a>
-    <form action="/users/{{session['username']}}/issues/{{issue.id}}/add_to_archive">
+    <a href="/users/{{g.user.username}}/issues/{{issue.id}}/delete" class="btn btn-danger mb-2">Delete Issue</a>
+    <form action="/users/{{g.user.username}}/issues/{{issue.id}}/add_to_archive">
       <button class="btn btn-info mb-2">Archive Issue</button>
     </form>
     
       {% else %}
-      <a href="/users/{{session['username']}}/issues/{{issue.id}}/comment" class="btn btn-info mb-2">Add comment</a>
+      <!-- <a href="/users/{{g.user.username}}/issues/{{issue.id}}/comment" class="btn btn-info mb-2">Add comment</a> -->
       
       {% endif %}
       

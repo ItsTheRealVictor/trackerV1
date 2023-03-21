@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, BooleanField, SubmitField
 from wtforms_alchemy import model_form_factory
-from models import db, User, Test, Issue, IssueComment
+from models import db, User, Test, Issue
 from wtforms.validators import InputRequired
 
 
@@ -26,9 +26,9 @@ class RegisterUserForm(FlaskForm):
     password = PasswordField('Password')
     email = StringField('Email address') 
 
-class ChangePasswordForm(FlaskForm):
-    new_password = PasswordField('Password', validators=[InputRequired()])
-    verify_password = PasswordField('Enter Password again', validators=[InputRequired()])
+# class ChangePasswordForm(FlaskForm):
+#     new_password = PasswordField('Password', validators=[InputRequired()])
+#     verify_password = PasswordField('Enter Password again', validators=[InputRequired()])
 
 class TestForm(ModelForm):
     class Meta:
@@ -40,7 +40,5 @@ class IssueForm(ModelForm):
         model = Issue
 
 class IssueCommentForm(FlaskForm):
-    '''Need to implement'''
-    class Meta:
-        model = IssueComment
-        exclude = ['timestamp']
+    text = TextAreaField('Enter your comment')
+    submit = SubmitField('Submit comment!')

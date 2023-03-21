@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify, render_template, redirect, flash, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import desc, asc
-from models import db, connect_db, User, Test, Issue, Message, IssueComment
-from forms import LoginForm, RegisterUserForm, TestForm, IssueForm, MessageForm
+from models import db, connect_db, User, Test, Issue, Message
+from forms import LoginForm, RegisterUserForm, TestForm, IssueForm, MessageForm, IssueCommentForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
 import datetime
@@ -270,6 +270,32 @@ def add_issue(username):
         return redirect(f'/all_issues')
 
     return render_template('add_issue.html', form=form)
+
+@app.route('/users/<username>/issues/<int:issue_id>/add_comment', methods=['GET', 'POST'])
+def add_issue_comment(username, issue_id):
+    username = g.user.username
+    issue= Issue.query.filter_by(id = issue_id).all()
+    form = IssueCommentForm()
+    if form.validate_on_submit():
+        issue[0].title = issue[0].title
+        issue[0].text = issue[0].text
+        issue[0].date = issue[0].date
+        issue[0].archived = issue[0].archived
+        issue[0].comment_text = form.text.data if form.text.data else 'no comment'
+
+        db.session.add(issue[0])
+        db.session.commit()
+        flash('COMMENT ADDED')
+        return redirect('/all_issues')
+
+    return render_template('add_comment.html', username=username, form=form, issue=issue)
+
+
+
+
+
+
+
 
 
 @app.route('/users/<username>/issues/<int:issue_id>/delete', methods=['GET', 'POST'])

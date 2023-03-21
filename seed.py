@@ -1,4 +1,4 @@
-from models import db, connect_db, User, Test, Issue, Message, IssueComment
+from models import db, connect_db, User, Test, Issue, Message
 from app import app
 import datetime
 
@@ -129,49 +129,62 @@ issues = [
         'text': 'Need to pick up some more propane accessories',
         'username': 'HankHill',
         'date': datetime.date(2022, 5, 5),
-        'archived': False
+        'archived': False,
+        'comment_text': 'This has not been completed'
     },
     {
         'title': 'Mow lawn',
         'text': 'Need to mow the lawn before the boys come over tomorrow so they dont comment on it.',
         'username': 'HankHill',
         'date': datetime.date(2022, 3, 20),
-        'archived': False
+        'archived': False,
+        'comment_text': 'This has not been completed'
+
     },
     {
         'title': 'Boggle practice',
         'text': 'I need to practice for the upcoming boggle championships this weekend',
         'username': 'PeggyHill',
         'date': datetime.date(2022, 6, 14),
-        'archived': True
+        'archived': True,
+        'comment_text': 'This has not been completed'
+
     },
     {
         'title': 'Softball game',
         'text': 'Softball game in the evening, substitute teachers v. the boggle club.',
         'username': 'PeggyHill',
         'date': datetime.date(2022, 3, 5),
-        'archived': False
+        'archived': False,
+        'comment_text': 'This has not been completed'
+
     },
     {
         'title': 'Material',
         'text': 'This week I need to work on some material for my upcoming comedy show',
         'username': 'BobbyHill',
         'date': datetime.date(2023, 1, 4),
-        'archived': True
+        'archived': True,
+        'comment_text': 'This has not been completed'
+
     },
     {
         'title': 'Study',
         'text': 'Need to meet up with Connie and Joseph this weekend to study',
         'username': 'BobbyHill',
         'date': datetime.date(2021, 11, 11),
-        'archived': False
+        'archived': False,
+        'comment_text': 'This has not been completed'
+
     },
     {
         'title': 'Camping trip this weekend',
         'text': 'Get camping gear organized for the upcoming trip with the boys',
         'username': 'BobbyHill',
         'date': datetime.date(2021, 9, 5),
-        'archived': False
+        'archived': False,
+        'comment_text': 'This has not been completed'
+
     }
 ]
 for issue in issues:
@@ -179,7 +192,8 @@ for issue in issues:
                 text=issue['text'],
                 username=issue['username'],
                 date=issue['date'],
-                archived=issue['archived'])
+                archived=issue['archived'],
+                comment_text=issue['comment_text'])
     db.session.add(new)
     db.session.commit()
 
