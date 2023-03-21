@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    
+<h3>This is {{user.username}}'s messages</h3>
+{% for msg in messages %}
+    <p>{{msg}}</p>
+{% endfor %}
+
+{% endblock %}

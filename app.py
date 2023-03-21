@@ -19,7 +19,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = -1
 # use this DB when developing from work computer
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
 
-app.debug = False
+app.debug = True
 debug = DebugToolbarExtension(app)
 app.config['DEBUG_TB_INTERCEPTS_REDIRECTS'] = False
 
@@ -257,3 +257,14 @@ def dearchive_issue(username, issue_id):
     db.session.commit()
     flash(f'{dearchived_issue.title} has been moved out of the archive')
     return redirect(f'/users/{username}/issues/archive')
+
+
+#################################### Message Routes ########################################################
+
+@app.route('/users/<username>/messages', methods=['GET', 'POST'])
+def get_messages(username):
+    user = session['username']
+    messages = Message.user.received_msgs.all()
+
+    breakpoint()
+    return render_template('messages.html', user=user, messages=messages)
