@@ -6,16 +6,17 @@
 {% for msg in messages %}
 <div class="card" style="width: 18rem;">
     <div class="card-body">
-      <h5 class="card-title">{{msg.title}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Author: {{issue.username}}</h6>
-      <h6 class="card-subtitle mb-2 text-muted">{{issue.date}}</h6>
-      <p class="card-text">{{issue.text}}</p>
-      {% if g.user.username == issue.username %}
-      <a href="#" class="btn btn-primary mb-2">Edit Issue</a>
-      <a href="/users/{{g.user.username}}/issues/{{issue.id}}/delete" class="btn btn-danger mb-2">Delete Issue</a>
-      <form action="/users/{{g.user.username}}/issues/{{issue.id}}/move_out_from_archive">
-        <button class="btn btn-info mb-2">Move back to active issues</button>
-      </form>
+      <h5 class="card-title">Message from {{msg.author}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted"></h6>
+      <h6 class="card-subtitle mb-2 text-muted">{{msg.timestamp.strftime('%Y-%m-%d %H:%M %p')}}</h6>
+      <p class="card-text">{{msg.body}}</p>
+      <a href="/users/{{msg.id}}/delete_message" class="btn btn-danger mb-2">delete message</a>
+      <a href="/users/{{msg.author.id}}/send_message" class="btn btn-primary mb-2">send message</a>
+      <!-- <form action="">
+        <button class="btn btn-info mb-2">asdfasdfasdfasdfasdfasdf</button>
+      </form> -->
+    </div>
+  </div>
 {% endfor %}
 
 {% endblock %}

@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template, redirect, flash, ses
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import desc, asc
 from models import db, connect_db, User, Test, Issue, Message
-from forms import LoginForm, RegisterUserForm, TestForm, IssueForm
+from forms import LoginForm, RegisterUserForm, TestForm, IssueForm, MessageForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
 import datetime
@@ -117,6 +117,30 @@ def change_password():
 
 
 #################### App Function Routes ####################
+
+############################## User routes #################################
+
+@app.route('/users/all', methods=['GET', 'POST'])
+def get_all_users():
+    users = User.query.all()
+    return render_template('all_users.html', users=users)
+
+@app.route('/users/<int:user_id>/info', methods=['GET', 'POST'])
+def get_user(user_id):
+    user = User.query.get_or_404(user_id)
+    return render_template('single_user.html', user=user)
+
+
+
+
+
+
+
+
+
+
+
+
 
 #################### tests ####################
 
@@ -296,3 +320,25 @@ def get_messages(user_id):
     messages = g.user.received_msgs.all()
 
     return render_template('messages.html', messages=messages)
+
+@app.route('/users/<int:recipient_id>/send_message', methods=['GET', 'POST'])
+def send_message(recipient_id):
+    recipient = User.query.filter_by(id=recipient_id).first_or_404()
+    form = MessageForm()
+    if form.validate_on_submit():
+        msg = Message(author=g.user, recipient=recipient, body=form.message.data)
+        db.session.add(msg)
+        db.session.commit()
+        flash('MESSAGE SENT!')
+        return redirect(f'/')
+    return render_template('send_message.html', form=form, recipient=recipient)
+
+@app.route('/users/<int:message_id>/delete_message', methods=['GET', 'POST'])
+def delete_message(message_id):
+    
+    user_id = g.user.id
+    msg = Message.query.get(message_id)
+    db.session.delete(msg)
+    db.session.commit()
+    
+    return redirect(f'/users/{user_id}/messages')
