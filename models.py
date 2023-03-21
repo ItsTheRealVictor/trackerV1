@@ -20,6 +20,16 @@ class Message(db.Model):
     body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default = datetime.datetime.utcnow)
 
+class IssueComment(db.Model): 
+
+    __tablename__ = "issue_comments" 
+
+    id = db.Column(db.Integer, primary_key=True) 
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
+    issue_comment_author = db.relationship("User", back_populates="issue_comments") 
+    post_id = db.Column(db.Integer, db.ForeignKey('issues.id')) 
+    parent_post = db.relationship("Issue", back_populates="issue_comments")         
+    text = db.Column(db.Text)
 
 
 
@@ -34,6 +44,7 @@ class User(db.Model):
     sent_msgs = db.relationship('Message', foreign_keys=Message.sender_id, backref='author', lazy='dynamic')
     received_msgs = db.relationship('Message', foreign_keys=Message.receiver_id, backref='recipient', lazy='dynamic')
 
+    issue_comments = db.relationship("IssueComment", back_populates="issue_comment_author")
 
     def __repr__(self):
         return f'{self.username}'
@@ -90,3 +101,4 @@ class Issue(db.Model):
     username = db.Column(db.Text, db.ForeignKey('users.username'))
     user = db.relationship('User', backref='Issue')
 
+    issue_comments = db.relationship('IssueComment', back_populates='parent_post')
