@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+    <h3>{{user.username}}'s profile</h3>
+    <p>
+        <a href="/users/{{user.id}}/send_message">Send a message to {{user.username}}</a>
+    </p>
+{% endblock %}

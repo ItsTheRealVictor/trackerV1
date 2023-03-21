@@ -1,14 +1,18 @@
-from flask import Flask, request, jsonify, render_template, redirect, flash, session
+from flask import Flask, request, jsonify, render_template, redirect, flash, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import desc, asc
-from models import db, connect_db, User, Test, Issue
-from forms import LoginForm, RegisterUserForm, TestForm, IssueForm, IssueCommentForm
+from models import db, connect_db, User, Test, Issue, Message
+from forms import LoginForm, RegisterUserForm, TestForm, IssueForm, MessageForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
 import datetime
 import calendar
 
+
+
+CURR_USER_KEY = 'curr_user'
 app = Flask(__name__)
+
 
 app.config['SECRET_KEY'] = 'asdf'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = -1
@@ -25,6 +29,27 @@ app.config['DEBUG_TB_INTERCEPTS_REDIRECTS'] = False
 
 connect_db(app)
 app.app_context().push()
+
+
+@app.before_request
+def add_user_to_g():
+    
+    if CURR_USER_KEY in session:
+        g.user = User.query.get(session[CURR_USER_KEY])
+    else:
+        g.user = None
+
+def do_login(user):
+    session[CURR_USER_KEY] = user.id
+    pass
+    
+
+def do_logout():
+    
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+    flash('LOGGED OUT')
+    return redirect('/login')
 
 
 @app.route('/')
@@ -50,6 +75,7 @@ def register():
             
         try:
             db.session.commit()
+            do_login(register_new_user)
             
         except IntegrityError:
             form.user.errors.append('Username already exists. Please choose another')
@@ -68,21 +94,48 @@ def login():
         
         user = User.authenticate_user(username, password)
         if user:
+            do_login(user)
             flash(f'Welcome back {user.username}')
-            session['username'] = user.username
             return redirect('/')
         else:
             form.username.errors = ['INVALID PASSORD!']
             
     return render_template('login.html', form=form)
+            
 
 @app.route('/logout')
 def logout():
-    session.pop('username')
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+    
     flash('Goodbye')
     return redirect('/')
 
 #################### App Function Routes ####################
+
+############################## User routes #################################
+
+@app.route('/users/all', methods=['GET', 'POST'])
+def get_all_users():
+    users = User.query.all()
+    return render_template('all_users.html', users=users)
+
+@app.route('/users/<int:user_id>/info', methods=['GET', 'POST'])
+def get_user(user_id):
+    user = User.query.get_or_404(user_id)
+    return render_template('single_user.html', user=user)
+
+
+
+
+
+
+
+
+
+
+
+
 
 #################### tests ####################
 
@@ -138,18 +191,50 @@ def add_test(username):
     return render_template('add_test.html', form=form)
 
 
-@app.route('/users/tests/<int:test_id>/delete', methods=['GET', 'POST '])
-def delete_test(test_id):
+@app.route('/users/<username>/tests/<int:test_id>/delete', methods=['GET', 'POST '])
+def delete_test(username, test_id):
     test = Test.query.get_or_404(test_id)
     db.session.delete(test)
     db.session.commit()
     flash('TEST DELETED')
+    return redirect('/all_tests', username=username)
+
+@app.route('/users/<username>/tests/archive', methods=['GET', 'POST'])
+def view_test_archive(username):
+    tests = Test.query.all()
+    if session['username'] == username:
+        pass
+
+    return render_template('test_archive.html', tests=tests)
+
+@app.route('/users/<username>/tests/<int:test_id>/add_to_archive', methods=['GET', 'POST'])
+def archive_test(username, test_id):
+
+    archived_test = Test.query.get_or_404(test_id)
+    archived_test.archived = True
+    db.session.add(archived_test)
+    db.session.commit()
+    flash(f'{archived_test.lot_num} has been moved into the archive')
+
     return redirect('/all_tests')
 
+@app.route('/users/<username>/tests/<int:test_id>/move_out_from_archive', methods=['GET', 'POST'])
+def dearchive_test(username, test_id):
+    dearchived_test = Test.query.get_or_404(test_id)
+    dearchived_test.archived = False
+    db.session.add(dearchived_test)
+    db.session.commit()
+    flash(f'{dearchived_test.lot_num} has been moved out of the archive')
+    return redirect(f'/users/{username}/tests/archive')
 
-@app.route('/users/tests/<int:test_id>/edit', methods=['GET', 'POST'])
+
+
+
+
+@app.route('/users/<username>/tests/<int:test_id>/edit', methods=['GET', 'POST'])
 def edit_test(test_id):
     test = Test.query.get_or_404(test_id)
+    pass
 
 
 
@@ -195,13 +280,60 @@ def delete_issue(username, issue_id):
         db.session.commit()
         return redirect('/all_issues')
 
+@app.route('/users/<username>/issues/archive', methods=['GET', 'POST'])
+def view_issue_archive(username):
+    issues = Issue.query.all()
 
-######################### Comment Routes ###################################
+    return render_template('issue_archive.html', issues=issues)
 
-@app.route('/users/<username>/issues/<int:issue_id>/comment')
-def add_issue_comment(username, issue_id):
-    '''Need to implement: Adding comments to issues and tests'''
-    issue = Issue.query.get_or_404(issue_id)
-    form = IssueCommentForm()
+@app.route('/users/<username>/issues/<int:issue_id>/add_to_archive', methods=['GET', 'POST'])
+def archive_issue(username, issue_id):
 
-    return render_template('add_issue_comment.html', form=form)
+    archived_issue = Issue.query.get_or_404(issue_id)
+    archived_issue.archived = True
+    db.session.add(archived_issue)
+    db.session.commit()
+    flash(f'{archived_issue.title} has been moved into the archive')
+
+    return redirect('/all_issues')
+
+@app.route('/users/<username>/issues/<int:issue_id>/move_out_from_archive', methods=['GET', 'POST'])
+def dearchive_issue(username, issue_id):
+    dearchived_issue = Issue.query.get_or_404(issue_id)
+    dearchived_issue.archived = False
+    db.session.add(dearchived_issue)
+    db.session.commit()
+    flash(f'{dearchived_issue.title} has been moved out of the archive')
+    return redirect(f'/users/{username}/issues/archive')
+
+
+#################################### Message Routes ########################################################
+
+@app.route('/users/<int:user_id>/messages', methods=['GET', 'POST'])
+def get_messages(user_id):
+    user_id = g.user.id
+    messages = g.user.received_msgs.all()
+
+    return render_template('messages.html', messages=messages)
+
+@app.route('/users/<int:recipient_id>/send_message', methods=['GET', 'POST'])
+def send_message(recipient_id):
+    recipient = User.query.filter_by(id=recipient_id).first_or_404()
+    form = MessageForm()
+    if form.validate_on_submit():
+        msg = Message(author=g.user, recipient=recipient, body=form.message.data)
+        db.session.add(msg)
+        db.session.commit()
+        flash('MESSAGE SENT!')
+        return redirect(f'/')
+    return render_template('send_message.html', form=form, recipient=recipient)
+
+@app.route('/users/<int:message_id>/delete_message', methods=['GET', 'POST'])
+def delete_message(message_id):
+    
+    user_id = g.user.id
+    msg = Message.query.get(message_id)
+    db.session.delete(msg)
+    db.session.commit()
+    
+    return redirect(f'/users/{user_id}/messages')

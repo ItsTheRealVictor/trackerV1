@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    
+<h3>This is {{g.user.username}}'s messages</h3>
+{% for msg in messages %}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Message from {{msg.author}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted"></h6>
+      <h6 class="card-subtitle mb-2 text-muted">{{msg.timestamp.strftime('%Y-%m-%d %H:%M %p')}}</h6>
+      <p class="card-text">{{msg.body}}</p>
+      <a href="/users/{{msg.id}}/delete_message" class="btn btn-danger mb-2">delete message</a>
+      <a href="/users/{{msg.author.id}}/send_message" class="btn btn-primary mb-2">send message</a>
+      <!-- <form action="">
+        <button class="btn btn-info mb-2">asdfasdfasdfasdfasdfasdf</button>
+      </form> -->
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}

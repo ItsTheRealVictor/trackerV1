@@ -1,51 +1,59 @@
 
-    {% if session['username'] %}
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item nav-link" href="/all_tests">View all tests</li>
-            <li class="nav-item nav-link" href="/all_issues">View all issues</li>
-            <li class="nav-item nav-link" href="/users/{{session['username']}}/issues/add">add issue</li>
-            <li class="nav-item nav-link" href="/users/{{session['username']}}/tests/add">add parts/tests</li>
-            <li class="nav-item nav-link" href="/logout">logout</li> -->
-
-
+    {% if g.user %}
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                  <li class="nav-item">
-                    <a class="nav-link" href="/all_tests">View all tests</a>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Issues
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="/users/{{g.user.id}}/issues/add">Add Issue</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="/all_issues">View all current issues</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="/users/{{g.user.id}}/issues/archive">View issue archive</a>
+                    </div>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/all_issues">View all issues</a>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Tests
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="/users/{{g.user.id}}/tests/add">add test</a>
+                      <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/all_tests">View all current tests</a>
+                      <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/users/{{g.user.id}}/tests/archive">View test archive</a>
+                      </li>
+
+                      <div class="navbar-nav">
+                        <a class="nav-item nav-link" href="/users/{{g.user.id}}/messages">View my messages</a>
+                      </div>
+                      <div class="navbar-nav">
+                        <a class="nav-item nav-link" href="/users/all">View all users</a>
+                      </div>
+                    </div>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/users/{{session['username']}}/issues/add">add issue</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/users/{{session['username']}}/tests/add">add test</a>
-                  </li>
-                  <li class="nav-item">
+                  
+                  
+                  
+                  
+                  
+                  
+                  
                     <a class="nav-link" href="/logout">logout</a>
-                  </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link" href="/change_password">change password</a>
-                  </li>
-                </ul>
-                <span class="navbar-text">
-                  currently logged in as {{session['username']}} 
-                </span>
+                  </li> -->
+                  <span class="navbar-text">
+                    currently logged in as {{g.user.username}} 
+                  </span>
               </div>
             </nav>
-        </ul>
-    </nav>
     {% else %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/">Home</a>

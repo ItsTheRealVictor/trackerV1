@@ -1,4 +1,4 @@
-from models import db, connect_db, User, Test, Issue
+from models import db, connect_db, User, Test, Issue, Message
 from app import app
 import datetime
 
@@ -50,7 +50,8 @@ tests = [
         'duration': 500,
         'start': datetime.date(2023, 12, 25),
         'owner': 'Kahn Souphanousinphone',
-        'end': ''
+        'end': '',
+        'archived': False
     },
     {
         'lot_num': 'RA572487-35',
@@ -60,7 +61,8 @@ tests = [
         'start': datetime.date(2023, 10, 4),
         'duration': 24,
         'owner': 'Joseph Gribble',
-        'end': ''
+        'end': '',
+        'archived': False
     },
     {
         'lot_num': 'RA128346-1',
@@ -70,7 +72,8 @@ tests = [
         'start': datetime.date(2022, 6, 14),
         'duration': 96,
         'owner': 'Dale Gribble',
-        'end': ''
+        'end': '',
+        'archived': False
     },
     {
         'lot_num': 'RA159456-1',
@@ -80,7 +83,8 @@ tests = [
         'start': datetime.date(2022, 1, 24),
         'duration': 192,
         'owner': 'Luanne Platter',
-        'end': ''
+        'end': '',
+        'archived': False
     },
     {
         'lot_num': 'RA127755-1',
@@ -90,7 +94,8 @@ tests = [
         'start': datetime.date(2023, 1, 1),
         'duration': 332,
         'owner': 'Bill Dautrieve',
-        'end': ''
+        'end': '',
+        'archived': False
     },
 
 ]
@@ -111,7 +116,8 @@ for test in tests:
                duration=test['duration'],
                owner=test['owner'],
                end=future_date_datetime,
-               endday = future_date_day)
+               endday = future_date_day,
+               archived = test['archived'])
 
     db.session.add(new)
     db.session.commit()
@@ -122,37 +128,84 @@ issues = [
         'title': 'Propane accessories',
         'text': 'Need to pick up some more propane accessories',
         'username': 'HankHill',
-        'date': datetime.date(2022, 5, 5)
+        'date': datetime.date(2022, 5, 5),
+        'archived': False
     },
     {
         'title': 'Mow lawn',
         'text': 'Need to mow the lawn before the boys come over tomorrow so they dont comment on it.',
         'username': 'HankHill',
-        'date': datetime.date(2022, 3, 20)
+        'date': datetime.date(2022, 3, 20),
+        'archived': False
     },
     {
         'title': 'Boggle practice',
         'text': 'I need to practice for the upcoming boggle championships this weekend',
         'username': 'PeggyHill',
-        'date': datetime.date(2022, 6, 14)
+        'date': datetime.date(2022, 6, 14),
+        'archived': True
+    },
+    {
+        'title': 'Softball game',
+        'text': 'Softball game in the evening, substitute teachers v. the boggle club.',
+        'username': 'PeggyHill',
+        'date': datetime.date(2022, 3, 5),
+        'archived': False
     },
     {
         'title': 'Material',
         'text': 'This week I need to work on some material for my upcoming comedy show',
         'username': 'BobbyHill',
-        'date': datetime.date(2023, 1, 4)
+        'date': datetime.date(2023, 1, 4),
+        'archived': True
     },
     {
         'title': 'Study',
         'text': 'Need to meet up with Connie and Joseph this weekend to study',
         'username': 'BobbyHill',
-        'date': datetime.date(2021, 11, 11)
+        'date': datetime.date(2021, 11, 11),
+        'archived': False
+    },
+    {
+        'title': 'Camping trip this weekend',
+        'text': 'Get camping gear organized for the upcoming trip with the boys',
+        'username': 'BobbyHill',
+        'date': datetime.date(2021, 9, 5),
+        'archived': False
     }
 ]
 for issue in issues:
     new = Issue(title=issue['title'], 
                 text=issue['text'],
                 username=issue['username'],
-                date=issue['date'])
+                date=issue['date'],
+                archived=issue['archived'])
     db.session.add(new)
     db.session.commit()
+
+
+messages = [
+    {
+        'id': 1,
+        'sender_id': 1,
+        'receiver_id': 2,
+        'body': "Hello Peggy. I am your husband, Hank",
+    },
+    {
+        'id': 2,
+        'sender_id': 2,
+        'receiver_id': 1,
+        'body': 'Hey Hank. What time is softball practice tonight?'
+    }
+]
+
+for message in messages:
+    new = Message(id = message['id'],
+                    sender_id=message['sender_id'],
+                    receiver_id=message['receiver_id'],
+                    body=message['body'])
+    db.session.add(new)
+    db.session.commit()
+
+
+    

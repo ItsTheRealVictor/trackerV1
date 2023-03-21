@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<h1>Welcome to the test archive</h1>
+  {% for test in tests %}
+    {% if test.archived == '1' %}
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{test.test_name}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{test.location}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">{{test.duration}} hours</h6>
+        <h6 class="card-subtitle mb-2 text-muted">Start date: {{test.start}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">End date: {{test.endday}} {{test.end}}</h6>
+        <p class="card-text">{{test.lot_num}}</p>
+        <a href="#" class="btn btn-primary">Edit Test</a>
+        <a href="/users/{{session['username']}}/tests/{{test.id}}/delete" class="btn btn-danger">Delete Test</a>
+        <form action="/users/{{session['username']}}/tests/{{test.id}}/move_out_from_archive">
+          <button class="btn btn-info mb-2 mt-1">Move back to active tests</button>
+        </form>
+  </div>
+</div>
+{% endif %}
+
+
+
+{% endfor %}        
+
+{% endblock body %}
