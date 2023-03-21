@@ -4,7 +4,18 @@
     
 <h3>This is {{g.user.username}}'s messages</h3>
 {% for msg in messages %}
-    <p>{{msg}}</p>
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{msg.title}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Author: {{issue.username}}</h6>
+      <h6 class="card-subtitle mb-2 text-muted">{{issue.date}}</h6>
+      <p class="card-text">{{issue.text}}</p>
+      {% if g.user.username == issue.username %}
+      <a href="#" class="btn btn-primary mb-2">Edit Issue</a>
+      <a href="/users/{{g.user.username}}/issues/{{issue.id}}/delete" class="btn btn-danger mb-2">Delete Issue</a>
+      <form action="/users/{{g.user.username}}/issues/{{issue.id}}/move_out_from_archive">
+        <button class="btn btn-info mb-2">Move back to active issues</button>
+      </form>
 {% endfor %}
 
 {% endblock %}

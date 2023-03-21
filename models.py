@@ -20,6 +20,9 @@ class Message(db.Model):
     body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default = datetime.datetime.utcnow)
 
+
+
+
 class User(db.Model):
     __tablename__ = 'users'
     
