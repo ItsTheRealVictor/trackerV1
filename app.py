@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect, flash, session
+from flask import Flask, request, jsonify, render_template, redirect, flash, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import desc, asc
 from models import db, connect_db, User, Test, Issue, Message
@@ -8,7 +8,11 @@ from werkzeug.exceptions import Unauthorized
 import datetime
 import calendar
 
+
+
+CURR_USER_KEY = 'curr_user'
 app = Flask(__name__)
+
 
 app.config['SECRET_KEY'] = 'asdf'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = -1
@@ -19,12 +23,33 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = -1
 # use this DB when developing from work computer
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
 
-app.debug = True
+app.debug = False
 debug = DebugToolbarExtension(app)
 app.config['DEBUG_TB_INTERCEPTS_REDIRECTS'] = False
 
 connect_db(app)
 app.app_context().push()
+
+
+@app.before_request
+def add_user_to_g():
+    
+    if CURR_USER_KEY in session:
+        g.user = User.query.get(session[CURR_USER_KEY])
+    else:
+        g.user = None
+
+def do_login(user):
+    session[CURR_USER_KEY] = user.id
+    pass
+    
+
+def do_logout():
+    
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+    flash('LOGGED OUT')
+    return redirect('/login')
 
 
 @app.route('/')
@@ -50,6 +75,7 @@ def register():
             
         try:
             db.session.commit()
+            do_login(register_new_user)
             
         except IntegrityError:
             form.user.errors.append('Username already exists. Please choose another')
@@ -68,17 +94,20 @@ def login():
         
         user = User.authenticate_user(username, password)
         if user:
+            do_login(user)
             flash(f'Welcome back {user.username}')
-            session['username'] = user.username
             return redirect('/')
         else:
             form.username.errors = ['INVALID PASSORD!']
             
     return render_template('login.html', form=form)
+            
 
 @app.route('/logout')
 def logout():
-    session.pop('username')
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+    
     flash('Goodbye')
     return redirect('/')
 
@@ -261,10 +290,9 @@ def dearchive_issue(username, issue_id):
 
 #################################### Message Routes ########################################################
 
-@app.route('/users/<username>/messages', methods=['GET', 'POST'])
-def get_messages(username):
-    user = session['username']
-    messages = Message.user.received_msgs.all()
+@app.route('/users/<int:user_id>/messages', methods=['GET', 'POST'])
+def get_messages(user_id):
+    user_id = g.user.id
+    messages = g.user.received_msgs.all()
 
-    breakpoint()
-    return render_template('messages.html', user=user, messages=messages)
+    return render_template('messages.html', messages=messages)

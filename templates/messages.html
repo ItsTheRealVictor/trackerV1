@@ -2,7 +2,7 @@
 
 {% block body %}
     
-<h3>This is {{user.username}}'s messages</h3>
+<h3>This is {{g.user.username}}'s messages</h3>
 {% for msg in messages %}
     <p>{{msg}}</p>
 {% endfor %}
