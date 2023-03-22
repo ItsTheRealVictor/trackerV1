@@ -45,7 +45,7 @@ My team works with environmental test chambers in different labs across a large 
 
 **When an issue is resolved, only the user who created the issue can put it in the archive. They can make another comment or move it out of the archive back into active**
 
-<img src="./readme_stuff/archive.png" width="400">
+<img src="./readme_stuff/archive.png" width="300">
 
 <img src="./readme_stuff/archive2.png" width="400">
 
