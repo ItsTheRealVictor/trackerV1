@@ -8,7 +8,7 @@
     <h1>These are the current tests</h1>
 
     {% for test in tests %}
-          {% if test.archived == '0' %}
+          {% if test.archived == '0' or test.archived == 'false' %}
               <div class="card" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title">{{test.test_name}}</h5>

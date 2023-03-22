@@ -17,11 +17,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'asdf'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = -1
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/tracker'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/tracker'
 # app.config['SQLALCHEMY_BINDS'] = {'testDB': 'sqlite:///test_tracker.db'}
 
 # use this DB when developing from work computer
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
 
 app.debug = False
 debug = DebugToolbarExtension(app)
@@ -202,7 +202,7 @@ def delete_test(username, test_id):
 @app.route('/users/<username>/tests/archive', methods=['GET', 'POST'])
 def view_test_archive(username):
     tests = Test.query.all()
-    if session['username'] == username:
+    if g.user.username == username:
         pass
 
     return render_template('test_archive.html', tests=tests)
@@ -261,7 +261,7 @@ def add_issue(username):
     if form.validate_on_submit():
         title = form.title.data
         text = form.text.data
-        username = session['username']
+        username = g.user.username
 
         new_issue = Issue(title=title, text=text, username=username)
     
@@ -273,15 +273,20 @@ def add_issue(username):
 
 @app.route('/users/<username>/issues/<int:issue_id>/add_comment', methods=['GET', 'POST'])
 def add_issue_comment(username, issue_id):
+    
+    stamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M %p')
+    
     username = g.user.username
     issue= Issue.query.filter_by(id = issue_id).all()
+    issue_comments = [issue.comment_text for issue in Issue.query.all()]
+    # breakpoint()
     form = IssueCommentForm()
     if form.validate_on_submit():
         issue[0].title = issue[0].title
         issue[0].text = issue[0].text
         issue[0].date = issue[0].date
         issue[0].archived = issue[0].archived
-        issue[0].comment_text = form.text.data if form.text.data else 'no comment'
+        issue[0].comment_text = f'{stamp}: {issue[0].username} says {form.text.data}'
 
         db.session.add(issue[0])
         db.session.commit()
@@ -301,7 +306,7 @@ def add_issue_comment(username, issue_id):
 @app.route('/users/<username>/issues/<int:issue_id>/delete', methods=['GET', 'POST'])
 def delete_issue(username, issue_id):
     issue = Issue.query.get_or_404(issue_id)
-    if session['username'] == username:
+    if g.user.username == username:
         db.session.delete(issue)
         db.session.commit()
         return redirect('/all_issues')

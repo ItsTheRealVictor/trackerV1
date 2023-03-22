@@ -4,7 +4,7 @@
   <h1>Issue archive</h1>
 
     {% for issue in issues %}
-        {% if issue.archived == '1' %}
+        {% if issue.archived == '1' or issue.archived == 'true' %}
         <div class="card" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title">{{issue.title}}</h5>

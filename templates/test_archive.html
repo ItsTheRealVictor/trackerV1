@@ -4,7 +4,7 @@
 {% block body %}
 <h1>Welcome to the test archive</h1>
   {% for test in tests %}
-    {% if test.archived == '1' %}
+    {% if test.archived == '1' or test.archived == 'true' %}
     <div class="card" style="width: 18rem;">
       <div class="card-body">
         <h5 class="card-title">{{test.test_name}}</h5>

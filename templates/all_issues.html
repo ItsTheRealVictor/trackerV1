@@ -9,7 +9,11 @@
 
 
 {% for issue in issues %}
-{% if issue.archived == '0' %}
+
+<!-- # if this starts acting weird, remember that sqlite stores bools as 0 and 1. 
+# Postgres stores as true/false -->
+
+{% if issue.archived == '0' or issue.archived =='false' %} 
   
 <div class="card" style="width: 18rem;">
   <div class="card-body">
