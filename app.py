@@ -17,11 +17,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'asdf'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = -1
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/tracker'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/tracker'
 # app.config['SQLALCHEMY_BINDS'] = {'testDB': 'sqlite:///test_tracker.db'}
 
 # use this DB when developing from work computer
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
 
 app.debug = False
 debug = DebugToolbarExtension(app)
@@ -286,7 +286,7 @@ def add_issue_comment(username, issue_id):
         issue[0].text = issue[0].text
         issue[0].date = issue[0].date
         issue[0].archived = issue[0].archived
-        issue[0].comment_text = f'{stamp}: {issue[0].username} says {form.text.data}'
+        issue[0].comment_text = f'{stamp}: {g.user.username} says {form.text.data}'
 
         db.session.add(issue[0])
         db.session.commit()
