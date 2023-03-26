@@ -5,8 +5,7 @@ from models import db, connect_db, User, Test, Issue, Message
 from forms import LoginForm, RegisterUserForm, TestForm, IssueForm, MessageForm, IssueCommentForm
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import Unauthorized
-import datetime
-import calendar
+import datetime, os
 
 
 
@@ -17,7 +16,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'asdf'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = -1
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/tracker'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://postgres:admin@localhost/tracker')
 # app.config['SQLALCHEMY_BINDS'] = {'testDB': 'sqlite:///test_tracker.db'}
 
 # use this DB when developing from work computer
