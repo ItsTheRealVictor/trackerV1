@@ -21,7 +21,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgres
 # app.config['SQLALCHEMY_BINDS'] = {'testDB': 'sqlite:///test_tracker.db'}
 
 # use this DB when developing from work computer
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trackerV1.db'
 
 app.debug = False
 debug = DebugToolbarExtension(app)
