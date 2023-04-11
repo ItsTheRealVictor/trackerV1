@@ -368,3 +368,10 @@ def delete_message(message_id):
     db.session.commit()
     
     return redirect(f'/users/{user_id}/messages')
+
+
+#****************** EXPERIMENTAL: adding react *******************
+
+@app.route('/react_test.html')
+def react_test():
+    return render_template('')
